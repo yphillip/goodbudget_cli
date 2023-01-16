@@ -9,8 +9,8 @@ from selenium.webdriver.common.by import By
 
 # Parser for password
 parser = argparse.ArgumentParser()
-parser.add_argument("--username", help="Username for Goodbudget", action="store")
-parser.add_argument("--password", help="Password for Goodbudget", action="store")
+parser.add_argument("username", help="Username for Goodbudget", action="store")
+parser.add_argument("password", help="Password for Goodbudget", action="store")
 args = parser.parse_args()
 
 # Setup chrome options
