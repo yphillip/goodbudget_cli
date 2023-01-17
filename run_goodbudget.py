@@ -5,14 +5,16 @@ import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait, Select
+from selenium.webdriver.support.ui import WebDriverWait
 
 TEST_DATA = {
-    "date": "11/06/2022",
+    "date": "11/06/2023",
     "payee": "test_payee",
-    "amount": "123.45",
+    "amount": "123.99",
     "envelope": "pure fun",
     "notes": "testing notes",
 }
@@ -78,26 +80,20 @@ expense_payee = browser.find_element(By.ID, "expense-receiver")
 expense_payee.click()
 expense_payee.send_keys(TEST_DATA["payee"])
 
-
 # Enter Amount
 expense_amount = browser.find_element(By.ID, "expense-amount")
 expense_amount.click()
 expense_amount.send_keys(TEST_DATA["amount"])
 
 # Choose correct Envelope
-# WebDriverWait(browser, 10).until(EC.element_to_be_clickable(select_element)).click()
-iframes = browser.find_elements(By.TAG_NAME, "iframe")
-breakpoint()
-assert len(iframes) == 1
-browser.switch_to.frame(iframes[0])
-select_element = browser.find_element(By.XPATH, "//select[@name='envelopeUuid']")
-select_element.click()
-browser.execute_script("arguments[0].scrollIntoView();", select_element)
-time.sleep(1)
-browser.save_screenshot("screenshot.png")
-# select = Select(select_element)
-# select.select_by_visible_text("Pure Fun")
-
+# Could not get Selenium selector to work,
+# so went with solution of typing out the first few letters
+# of the desired envelope
+actions = ActionChains(browser)
+actions.send_keys(Keys.TAB)
+actions.perform()
+actions.send_keys("Ally")  # TODO: remove hardcode
+actions.perform()
 
 # Enter Notes
 expense_notes = browser.find_element(By.ID, "expense-notes")
@@ -105,6 +101,10 @@ expense_notes.click()
 expense_notes.send_keys(TEST_DATA["notes"])
 
 # Click the Save button
+save_button = browser.find_element(By.ID, "addTransactionSave")
+# save_button.click() didn't work, so have to use this
+browser.execute_script("arguments[0].click();", save_button)
 
 time.sleep(1)
+browser.save_screenshot("screenshot.png")
 browser.quit()
