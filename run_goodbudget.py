@@ -12,11 +12,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 TEST_DATA = {
-    "date": "11/06/2023",
-    "payee": "test_payee",
-    "amount": "123.99",
-    "envelope": "pure fun",
-    "notes": "testing notes",
+    "date": "01/15/2023",
+    "payee": "99 RANCH",
+    "amount": "155.70",
+    "envelope": "Groceries",
+    "notes": "",
 }
 
 
@@ -82,7 +82,8 @@ expense_payee.send_keys(TEST_DATA["payee"])
 
 # Enter Amount
 expense_amount = browser.find_element(By.ID, "expense-amount")
-expense_amount.click()
+# expense_amount.click()
+browser.execute_script("arguments[0].click();", expense_amount)  # TODO: do this for other clicks
 expense_amount.send_keys(TEST_DATA["amount"])
 
 # Choose correct Envelope
@@ -92,7 +93,7 @@ expense_amount.send_keys(TEST_DATA["amount"])
 actions = ActionChains(browser)
 actions.send_keys(Keys.TAB)
 actions.perform()
-actions.send_keys("Ally")  # TODO: remove hardcode
+actions.send_keys(TEST_DATA["envelope"])  # TODO: make smarter logic
 actions.perform()
 
 # Enter Notes
