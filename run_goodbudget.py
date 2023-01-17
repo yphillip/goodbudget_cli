@@ -44,6 +44,26 @@ args = parser.parse_args()
 # Get password
 gb_password = getpass.getpass(prompt="Enter your Goodbudget password: ")
 
+input_date = input("Date of transaction: ")
+input_payee = input("Payee: ")
+input_amount = input("Amount: ")
+input_envelope = input("Envelope: ")
+input_notes = input("Notes (optional): ")
+
+summary_of_transaction = f"""
+Summary of your transcation:
+
+    Date: {input_date}
+    Payee: {input_payee}
+    Amount: {input_amount}
+    Envelope: {input_envelope}
+    Notes: {input_notes}
+"""
+print(summary_of_transaction)
+input_confirmation = input("Is everything correct? (Y/n) ")
+if input_confirmation.lower() not in ["y", "yes"]:
+    print("Exiting the program.")
+    quit()
 
 # Setup chrome options
 chrome_options = Options()
@@ -92,18 +112,18 @@ expense_date = browser.find_element(By.ID, "expense-date")
 WebDriverWait(browser, 10).until(EC.element_to_be_clickable(expense_date)).click()
 expense_date.clear()
 # Enter the correct Date
-expense_date.send_keys(TEST_DATA["date"])
+expense_date.send_keys(input_date)
 
 # Enter Payee
 expense_payee = browser.find_element(By.ID, "expense-receiver")
 expense_payee.click()
-expense_payee.send_keys(TEST_DATA["payee"])
+expense_payee.send_keys(input_payee)
 
 # Enter Amount
 expense_amount = browser.find_element(By.ID, "expense-amount")
 # expense_amount.click()
 browser.execute_script("arguments[0].click();", expense_amount)  # TODO: do this for other clicks
-expense_amount.send_keys(TEST_DATA["amount"])
+expense_amount.send_keys(input_amount)
 
 # Choose correct Envelope
 # Could not get Selenium selector to work,
@@ -112,13 +132,13 @@ expense_amount.send_keys(TEST_DATA["amount"])
 actions = ActionChains(browser)
 actions.send_keys(Keys.TAB)
 actions.perform()
-actions.send_keys(TEST_DATA["envelope"])  # TODO: make smarter logic
+actions.send_keys(input_envelope)  # TODO: make smarter logic
 actions.perform()
 
 # Enter Notes
 expense_notes = browser.find_element(By.ID, "expense-notes")
 expense_notes.click()
-expense_notes.send_keys(TEST_DATA["notes"])
+expense_notes.send_keys(input_notes)
 
 # Click the Save button
 save_button = browser.find_element(By.ID, "addTransactionSave")
