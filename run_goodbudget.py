@@ -1,4 +1,5 @@
 import argparse
+import getpass
 import os.path
 import time
 
@@ -12,19 +13,22 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 TEST_DATA = {
-    "date": "01/15/2023",
-    "payee": "99 RANCH",
+    "date": "01/17/2023",
+    "payee": "TEST_PAYEE",
     "amount": "155.70",
     "envelope": "Groceries",
-    "notes": "",
+    "notes": "TEST_NOTES",
 }
 
 
-# Parser for password
+# Parser for login email
 parser = argparse.ArgumentParser()
 parser.add_argument("username", help="Username for Goodbudget", action="store")
-parser.add_argument("password", help="Password for Goodbudget", action="store")
 args = parser.parse_args()
+
+# Get password
+gb_password = getpass.getpass(prompt="Enter your Goodbudget password: ")
+
 
 # Setup chrome options
 chrome_options = Options()
@@ -52,7 +56,7 @@ username = browser.find_element(By.ID, "username")
 username.send_keys(args.username)
 
 password = browser.find_element(By.ID, "password")
-password.send_keys(args.password)
+password.send_keys(gb_password)
 
 login_button = browser.find_element(
     By.XPATH,
