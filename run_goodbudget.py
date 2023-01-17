@@ -20,6 +20,21 @@ TEST_DATA = {
     "notes": "TEST_NOTES",
 }
 
+ENVELOPES = [
+    "Misc:Required",
+    "Misc:House Stufff",
+    "Misc:Fun",
+    "Groceries",
+    "Eating and Drinking Out",
+    "Transportation",
+    "Health",
+    "Pure Fun",
+    "Roth IRA",
+    "Travel/Vacation",
+    "Ally",
+    "Merrill",
+]
+
 
 # Parser for login email
 parser = argparse.ArgumentParser()
