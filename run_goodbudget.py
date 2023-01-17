@@ -122,7 +122,9 @@ expense_payee.send_keys(input_payee)
 # Enter Amount
 expense_amount = browser.find_element(By.ID, "expense-amount")
 # expense_amount.click()
-browser.execute_script("arguments[0].click();", expense_amount)  # TODO: do this for other clicks
+browser.execute_script(
+    "arguments[0].click();", expense_amount
+)  # TODO: do this for other clicks
 expense_amount.send_keys(input_amount)
 
 # Choose correct Envelope
