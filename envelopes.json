@@ -1,0 +1,63 @@
+{
+    "Description": "Edit this file to assign keywords to your Goodbudget Envelopes.",
+    "Envelopes": {
+        "Misc:Required": [
+            "misc required",
+            "required",
+            "req",
+            "misc req"
+        ],
+        "Misc:House Stufff": [
+            "misc house stuff",
+            "misc house",
+            "house"
+        ],
+        "Misc:Fun": [
+            "misc fun"
+        ],
+        "Groceries": [
+            "groceries",
+            "market",
+            "food"
+        ],
+        "Eating and Drinking Out": [
+            "eating",
+            "drinking",
+            "eat",
+            "drink",
+            "restaurant",
+            "eat out"
+        ],
+        "Transportation": [
+            "transportation",
+            "transport",
+            "car",
+            "drive"
+        ],
+        "Health": [
+            "health"
+        ],
+        "Pure Fun": [
+            "pure fun",
+            "fun"
+        ],
+        "Roth IRA": [
+            "roth ira",
+            "roth",
+            "ira"
+        ],
+        "Travel/Vacation": [
+            "travel",
+            "vacation"
+        ],
+        "Ally": [
+            "ally"
+        ],
+        "Merrill": [
+            "merrill",
+            "invest",
+            "investing",
+            "stocks"
+        ]
+    }
+}

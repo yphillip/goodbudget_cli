@@ -1,5 +1,6 @@
 import argparse
 import getpass
+import json
 import os.path
 import time
 
@@ -14,41 +15,17 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from utils import format_date
 
-TEST_DATA = {
-    "date": "01/17/2023",
-    "payee": "TEST_PAYEE",
-    "amount": "155.70",
-    "envelope": "Groceries",
-    "notes": "TEST_NOTES",
-}
-
-ENVELOPES = {
-    "Misc:Required": ["misc required", "required", "req", "misc req"],
-    "Misc:House Stufff": ["misc house stuff", "misc house", "house"],
-    "Misc:Fun": ["misc fun"],
-    "Groceries": ["groceries", "market", "food"],
-    "Eating and Drinking Out": [
-        "eating",
-        "drinking",
-        "eat",
-        "drink",
-        "restaurant",
-        "eat out",
-    ],
-    "Transportation": ["transportation", "transport", "car", "drive"],
-    "Health": ["health"],
-    "Pure Fun": ["pure fun", "fun"],
-    "Roth IRA": ["roth ira", "roth", "ira"],
-    "Travel/Vacation": ["travel", "vacation"],
-    "Ally": ["ally"],
-    "Merrill": ["merrill", "invest", "investing", "stocks"],
-}
-
 
 def get_envelope_from_keyword(keyword: str) -> str:
+    # Parse the envelopes.json
+    f = open("envelopes.json")
+    data = json.load(f)
+    envelopes_data = data["Envelopes"]
+
+    # Match keyword to envelope
     keyword = keyword.lower()
     found = False
-    for envelope_name, keywords in ENVELOPES.items():
+    for envelope_name, keywords in envelopes_data.items():
         if keyword in keywords:
             found_envelope = envelope_name
             found = True
@@ -87,7 +64,9 @@ browser.get("https://goodbudget.com/login")
 # General check of the login page
 # Extract description from page and print
 description = browser.find_element(By.NAME, "description").get_attribute("content")
-assert description == "Log in to Goodbudget. Budget well. Live life. Do good."  # subject to change
+assert (
+    description == "Log in to Goodbudget. Budget well. Live life. Do good."
+)  # subject to change
 
 # Log in
 username = browser.find_element(By.ID, "username")
