@@ -64,27 +64,7 @@ args = parser.parse_args()
 # Get password
 gb_password = getpass.getpass(prompt="Enter your Goodbudget password: ")
 
-input_date = input("Date of transaction: ")
-input_payee = input("Payee: ")
-input_amount = input("Amount: ")
-input_envelope = input("Envelope: ")
-found_envelope = get_envelope_from_keyword(input_envelope)
-input_notes = input("Notes (optional): ")
-
-summary_of_transaction = f"""
-Summary of your transcation:
-
-    Date: {input_date}
-    Payee: {input_payee}
-    Amount: {input_amount}
-    Envelope: {found_envelope} (based on your keyword of '{input_envelope}')
-    Notes: {input_notes if input_notes else "<none>"}
-"""
-print(summary_of_transaction)
-input_confirmation = input("Is everything correct? (Y/n) ")
-if input_confirmation.lower() not in ["y", "yes"]:
-    print("Exiting the program.")
-    quit()
+print("Logging in. Please wait...")
 
 # Setup chrome options
 chrome_options = Options()
@@ -105,7 +85,7 @@ browser.get("https://goodbudget.com/login")
 # General check of the login page
 # Extract description from page and print
 description = browser.find_element(By.NAME, "description").get_attribute("content")
-print(f"{description}")
+assert description == "Log in to Goodbudget. Budget well. Live life. Do good."  # subject to change
 
 # Log in
 username = browser.find_element(By.ID, "username")
@@ -122,54 +102,86 @@ login_button.click()
 assert (
     browser.title == "Home | Goodbudget"
 ), f"Got browser title of {browser.title} instead"
+print("Logged in.\n")
 
 
-# Click the Add Transaction button
-add_transaction_button = browser.find_element(By.LINK_TEXT, "Add Transaction")
-add_transaction_button.click()
+more_transactions = True
+while more_transactions:
+    input_date = input("Date of transaction: ")  # TODO: accept keywords like today/yesterday
+    input_payee = input("Payee: ")
+    input_amount = input("Amount: ")
+    input_envelope = input("Envelope: ")
+    found_envelope = get_envelope_from_keyword(input_envelope)
+    input_notes = input("Notes (optional): ")
 
-# Clear out the Date
-expense_date = browser.find_element(By.ID, "expense-date")
-WebDriverWait(browser, 10).until(EC.element_to_be_clickable(expense_date)).click()
-expense_date.clear()
-# Enter the correct Date
-expense_date.send_keys(input_date)
+    summary_of_transaction = f"""
+    Summary of your transcation:
 
-# Enter Payee
-expense_payee = browser.find_element(By.ID, "expense-receiver")
-expense_payee.click()
-expense_payee.send_keys(input_payee)
+        Date: {input_date}
+        Payee: {input_payee}
+        Amount: {input_amount}
+        Envelope: {found_envelope} (based on your keyword of '{input_envelope}')
+        Notes: {input_notes if input_notes else "<none>"}
+    """
+    print(summary_of_transaction)
+    input_confirmation = input("Is everything correct? (Y/n) ")
+    if input_confirmation.lower() not in ["y", "yes"]:
+        print("Exiting the program.")
+        quit()
 
-# Enter Amount
-expense_amount = browser.find_element(By.ID, "expense-amount")
-# expense_amount.click()
-browser.execute_script(
-    "arguments[0].click();", expense_amount
-)  # TODO: do this for other clicks
-expense_amount.send_keys(input_amount)
+    # Click the Add Transaction button
+    add_transaction_button = browser.find_element(By.LINK_TEXT, "Add Transaction")
+    browser.execute_script("arguments[0].click();", add_transaction_button)
 
-# Choose correct Envelope
-# Could not get Selenium selector to work,
-# so went with solution of typing out the first few letters
-# of the desired envelope. This relies on the big assumption
-# that the "Enter Amount" was the field visited right before this
-actions = ActionChains(browser)
-actions.send_keys(Keys.TAB)
-actions.perform()
-actions.send_keys(found_envelope)
-actions.perform()
+    # Clear out the Date
+    expense_date = browser.find_element(By.ID, "expense-date")
+    WebDriverWait(browser, 10).until(EC.element_to_be_clickable(expense_date)).click()
+    expense_date.clear()
+    # Enter the correct Date
+    expense_date.send_keys(input_date)
 
-# Enter Notes
-expense_notes = browser.find_element(By.ID, "expense-notes")
-expense_notes.click()
-expense_notes.send_keys(input_notes)
+    # Enter Payee
+    expense_payee = browser.find_element(By.ID, "expense-receiver")
+    expense_payee.click()
+    expense_payee.send_keys(input_payee)
 
-# Click the Save button
-save_button = browser.find_element(By.ID, "addTransactionSave")
-# save_button.click() didn't work, so have to use this
-browser.execute_script("arguments[0].click();", save_button)
+    # Enter Amount
+    expense_amount = browser.find_element(By.ID, "expense-amount")
+    # expense_amount.click()
+    browser.execute_script(
+        "arguments[0].click();", expense_amount
+    )  # TODO: do this for other clicks
+    expense_amount.send_keys(input_amount)
 
-time.sleep(1)
-print("Success! Your transaction was entered into Goodbudget.")
+    # Choose correct Envelope
+    # Could not get Selenium selector to work,
+    # so went with solution of typing out the first few letters
+    # of the desired envelope. This relies on the big assumption
+    # that the "Enter Amount" was the field visited right before this
+    actions = ActionChains(browser)
+    actions.send_keys(Keys.TAB)
+    actions.perform()
+    actions.send_keys(found_envelope)
+    actions.perform()
+
+    # Enter Notes
+    expense_notes = browser.find_element(By.ID, "expense-notes")
+    expense_notes.click()
+    expense_notes.send_keys(input_notes)
+
+    # Click the Save button
+    save_button = browser.find_element(By.ID, "addTransactionSave")
+    # save_button.click() didn't work, so have to use this
+    browser.execute_script("arguments[0].click();", save_button)
+
+    time.sleep(1)
+    print("Success! Your transaction was entered into Goodbudget.")
+    print()
+    input_more_transactions = input("Do you want to enter another transaction? (Y/n) ")
+    print()
+    if input_more_transactions.lower() not in ["y", "yes"]:
+        more_transactions = False
+
+print("Thank you for using goodbudget_cli! See you next time!")
 browser.save_screenshot("screenshot.png")
 browser.quit()
