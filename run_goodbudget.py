@@ -78,7 +78,7 @@ Summary of your transcation:
     Payee: {input_payee}
     Amount: {input_amount}
     Envelope: {found_envelope} (based on your keyword of '{input_envelope}')
-    Notes: {input_notes}
+    Notes: {input_notes if input_notes else "<none>"}
 """
 print(summary_of_transaction)
 input_confirmation = input("Is everything correct? (Y/n) ")
