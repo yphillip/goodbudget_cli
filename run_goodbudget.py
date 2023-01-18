@@ -175,13 +175,11 @@ while more_transactions:
     browser.execute_script("arguments[0].click();", save_button)
 
     time.sleep(1)
-    print("Success! Your transaction was entered into Goodbudget.")
-    print()
+    print("Success! Your transaction was entered into Goodbudget.\n")
     input_more_transactions = input("Do you want to enter another transaction? (Y/n) ")
-    print()
     if input_more_transactions.lower() not in ["y", "yes"]:
         more_transactions = False
 
-print("Thank you for using goodbudget_cli! See you next time!")
+print("\nThank you for using goodbudget_cli! See you next time!")
 browser.save_screenshot("screenshot.png")
 browser.quit()
