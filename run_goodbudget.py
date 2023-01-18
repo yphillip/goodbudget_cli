@@ -170,5 +170,6 @@ save_button = browser.find_element(By.ID, "addTransactionSave")
 browser.execute_script("arguments[0].click();", save_button)
 
 time.sleep(1)
+print("Success! Your transaction was entered into Goodbudget.")
 browser.save_screenshot("screenshot.png")
 browser.quit()
