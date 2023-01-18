@@ -12,6 +12,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from utils import format_date
+
 TEST_DATA = {
     "date": "01/17/2023",
     "payee": "TEST_PAYEE",
@@ -107,7 +109,8 @@ print("Logged in.\n")
 
 more_transactions = True
 while more_transactions:
-    input_date = input("Date of transaction: ")  # TODO: accept keywords like today/yesterday
+    input_date = input("Date of transaction (today / yesterday / mm/dd/yyyyy): ")
+    formatted_date = format_date(input_date)
     input_payee = input("Payee: ")
     input_amount = input("Amount: ")
     input_envelope = input("Envelope: ")
@@ -117,9 +120,9 @@ while more_transactions:
     summary_of_transaction = f"""
     Summary of your transcation:
 
-        Date: {input_date}
+        Date: {formatted_date}
         Payee: {input_payee}
-        Amount: {input_amount}
+        Amount: ${input_amount}
         Envelope: {found_envelope} (based on your keyword of '{input_envelope}')
         Notes: {input_notes if input_notes else "<none>"}
     """
@@ -138,7 +141,7 @@ while more_transactions:
     WebDriverWait(browser, 10).until(EC.element_to_be_clickable(expense_date)).click()
     expense_date.clear()
     # Enter the correct Date
-    expense_date.send_keys(input_date)
+    expense_date.send_keys(formatted_date)
 
     # Enter Payee
     expense_payee = browser.find_element(By.ID, "expense-receiver")
