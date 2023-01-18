@@ -20,20 +20,40 @@ TEST_DATA = {
     "notes": "TEST_NOTES",
 }
 
-ENVELOPES = [
-    "Misc:Required",
-    "Misc:House Stufff",
-    "Misc:Fun",
-    "Groceries",
-    "Eating and Drinking Out",
-    "Transportation",
-    "Health",
-    "Pure Fun",
-    "Roth IRA",
-    "Travel/Vacation",
-    "Ally",
-    "Merrill",
-]
+ENVELOPES = {
+    "Misc:Required": ["misc required", "required", "req", "misc req"],
+    "Misc:House Stufff": ["misc house stuff", "misc house", "house"],
+    "Misc:Fun": ["misc fun"],
+    "Groceries": ["groceries", "market", "food"],
+    "Eating and Drinking Out": [
+        "eating",
+        "drinking",
+        "eat",
+        "drink",
+        "restaurant",
+        "eat out",
+    ],
+    "Transportation": ["transportation", "transport", "car", "drive"],
+    "Health": ["health"],
+    "Pure Fun": ["pure fun", "fun"],
+    "Roth IRA": ["roth ira", "roth", "ira"],
+    "Travel/Vacation": ["travel", "vacation"],
+    "Ally": ["ally"],
+    "Merrill": ["merrill", "invest", "investing", "stocks"],
+}
+
+
+def get_envelope_from_keyword(keyword: str) -> str:
+    keyword = keyword.lower()
+    found = False
+    for envelope_name, keywords in ENVELOPES.items():
+        if keyword in keywords:
+            found_envelope = envelope_name
+            found = True
+            break
+    if not found:
+        raise ValueError(f"Could not determine which envelope '{keyword}' belongs to!")
+    return found_envelope
 
 
 # Parser for login email
@@ -48,6 +68,7 @@ input_date = input("Date of transaction: ")
 input_payee = input("Payee: ")
 input_amount = input("Amount: ")
 input_envelope = input("Envelope: ")
+found_envelope = get_envelope_from_keyword(input_envelope)
 input_notes = input("Notes (optional): ")
 
 summary_of_transaction = f"""
@@ -56,7 +77,7 @@ Summary of your transcation:
     Date: {input_date}
     Payee: {input_payee}
     Amount: {input_amount}
-    Envelope: {input_envelope}
+    Envelope: {found_envelope} (based on your keyword of '{input_envelope}')
     Notes: {input_notes}
 """
 print(summary_of_transaction)
@@ -130,11 +151,12 @@ expense_amount.send_keys(input_amount)
 # Choose correct Envelope
 # Could not get Selenium selector to work,
 # so went with solution of typing out the first few letters
-# of the desired envelope
+# of the desired envelope. This relies on the big assumption
+# that the "Enter Amount" was the field visited right before this
 actions = ActionChains(browser)
 actions.send_keys(Keys.TAB)
 actions.perform()
-actions.send_keys(input_envelope)  # TODO: make smarter logic
+actions.send_keys(found_envelope)
 actions.perform()
 
 # Enter Notes
