@@ -2,6 +2,7 @@ import argparse
 import getpass
 import json
 import os.path
+from pathlib import Path
 import time
 
 from selenium import webdriver
@@ -18,7 +19,8 @@ from utils import format_date
 
 def get_envelope_from_keyword(keyword: str) -> str:
     # Parse the envelopes.json
-    f = open("envelopes.json")
+    current_dir = Path(__file__).parent
+    f = open(current_dir / "envelopes.json")
     data = json.load(f)
     envelopes_data = data["Envelopes"]
 
@@ -88,7 +90,7 @@ print("Logged in.\n")
 
 more_transactions = True
 while more_transactions:
-    input_date = input("Date of transaction (today / yesterday / mm/dd/yyyyy): ")
+    input_date = input("Date of transaction (today / yesterday / mm/dd/yyyy): ")
     formatted_date = format_date(input_date)
     input_payee = input("Payee: ")
     input_amount = input("Amount: ")
