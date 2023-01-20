@@ -58,7 +58,8 @@ def main():
 
     login_button = browser.find_element(
         By.XPATH,
-        "//button[@class='elementor-button elementor-size-sm elementor-animation-grow']",
+        "//button[@class='elementor-button elementor-size-sm "
+        "elementor-animation-grow']",
     )
     login_button.click()
     assert (
