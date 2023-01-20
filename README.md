@@ -12,5 +12,5 @@ $ pipx install ./goodbudget_cli
 - Selenium Chrome Webdriver ([example of installation instructions](https://cloudbytes.dev/snippets/run-selenium-and-chrome-on-wsl2))
 ## Usage
 ```
-gb {Goodbudget household username or email}
+$ gb {Goodbudget household username or email}
 ```
