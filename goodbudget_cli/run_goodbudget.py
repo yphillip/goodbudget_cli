@@ -15,9 +15,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from .utils.util import format_date, get_envelope_from_alias
 
 
-
-
-
 def main():
     # Parser for login email
     parser = argparse.ArgumentParser()
