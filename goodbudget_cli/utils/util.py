@@ -44,8 +44,8 @@ def get_envelope_from_alias(alias: str) -> str:
     # Match alias to envelope
     alias = alias.lower()
     found = False
-    for envelope_name, aliass in envelopes_data.items():
-        if alias in aliass:
+    for envelope_name, aliases in envelopes_data.items():
+        if alias in aliases:
             found_envelope = envelope_name
             found = True
             break
