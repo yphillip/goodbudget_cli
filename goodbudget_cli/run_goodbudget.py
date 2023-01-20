@@ -1,8 +1,6 @@
 import argparse
 import getpass
-import json
 import os.path
-from pathlib import Path
 import time
 
 from selenium import webdriver
@@ -14,27 +12,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from .utils.util import format_date
+from .utils.util import format_date, get_envelope_from_keyword
 
 
-def get_envelope_from_keyword(keyword: str) -> str:
-    # Parse the envelopes.json
-    current_dir = Path(__file__).parent
-    f = open(current_dir / "envelopes.json")
-    data = json.load(f)
-    envelopes_data = data["Envelopes"]
 
-    # Match keyword to envelope
-    keyword = keyword.lower()
-    found = False
-    for envelope_name, keywords in envelopes_data.items():
-        if keyword in keywords:
-            found_envelope = envelope_name
-            found = True
-            break
-    if not found:
-        raise ValueError(f"Could not determine which envelope '{keyword}' belongs to!")
-    return found_envelope
 
 
 def main():

@@ -1,4 +1,6 @@
 import datetime
+import json
+from pathlib import Path
 
 
 def format_date(input_date: str) -> str:
@@ -29,3 +31,24 @@ def format_date(input_date: str) -> str:
         formatted_date = "/".join([month, day, year])
 
     return formatted_date
+
+
+def get_envelope_from_keyword(keyword: str) -> str:
+    """Determine the correct envelope given a keyword"""
+    # Parse the envelopes.json
+    current_dir = Path(__file__).parent
+    f = open(current_dir.parent / "envelopes.json")
+    data = json.load(f)
+    envelopes_data = data["Envelopes"]
+
+    # Match keyword to envelope
+    keyword = keyword.lower()
+    found = False
+    for envelope_name, keywords in envelopes_data.items():
+        if keyword in keywords:
+            found_envelope = envelope_name
+            found = True
+            break
+    if not found:
+        raise ValueError(f"Could not determine which envelope '{keyword}' belongs to!")
+    return found_envelope
