@@ -14,7 +14,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from .utils import format_date
+from .utils.util import format_date
 
 
 def get_envelope_from_keyword(keyword: str) -> str:
@@ -171,7 +171,3 @@ def main():
     print("\nThank you for using goodbudget_cli! See you next time!")
     browser.save_screenshot("screenshot.png")
     browser.quit()
-
-
-if __name__ == "__main__":
-    main()
