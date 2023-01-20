@@ -1,5 +1,5 @@
 {
-    "Description": "Edit this file to assign keywords to your Goodbudget Envelopes.",
+    "Description": "Edit this file to assign aliass to your Goodbudget Envelopes.",
     "Envelopes": {
         "Misc:Required": [
             "misc required",

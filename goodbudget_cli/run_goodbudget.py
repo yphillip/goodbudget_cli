@@ -12,7 +12,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from .utils.util import format_date, get_envelope_from_keyword
+from .utils.util import format_date, get_envelope_from_alias
 
 
 
@@ -76,7 +76,7 @@ def main():
         input_payee = input("Payee: ")
         input_amount = input("Amount: ")
         input_envelope = input("Envelope: ")
-        found_envelope = get_envelope_from_keyword(input_envelope)
+        found_envelope = get_envelope_from_alias(input_envelope)
         input_notes = input("Notes (optional): ")
 
         summary_of_transaction = f"""
@@ -85,7 +85,7 @@ def main():
             Date: {formatted_date}
             Payee: {input_payee}
             Amount: ${input_amount}
-            Envelope: {found_envelope} (based on your keyword of '{input_envelope}')
+            Envelope: {found_envelope} (based on your alias of '{input_envelope}')
             Notes: {input_notes if input_notes else "<none>"}
         """
         print(summary_of_transaction)

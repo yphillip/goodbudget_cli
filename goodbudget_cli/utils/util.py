@@ -33,22 +33,22 @@ def format_date(input_date: str) -> str:
     return formatted_date
 
 
-def get_envelope_from_keyword(keyword: str) -> str:
-    """Determine the correct envelope given a keyword"""
+def get_envelope_from_alias(alias: str) -> str:
+    """Determine the correct envelope given a alias"""
     # Parse the envelopes.json
     current_dir = Path(__file__).parent
     f = open(current_dir.parent / "envelopes.json")
     data = json.load(f)
     envelopes_data = data["Envelopes"]
 
-    # Match keyword to envelope
-    keyword = keyword.lower()
+    # Match alias to envelope
+    alias = alias.lower()
     found = False
-    for envelope_name, keywords in envelopes_data.items():
-        if keyword in keywords:
+    for envelope_name, aliass in envelopes_data.items():
+        if alias in aliass:
             found_envelope = envelope_name
             found = True
             break
     if not found:
-        raise ValueError(f"Could not determine which envelope '{keyword}' belongs to!")
+        raise ValueError(f"Could not determine which envelope '{alias}' belongs to!")
     return found_envelope
