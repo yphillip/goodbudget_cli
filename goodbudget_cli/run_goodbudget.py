@@ -1,6 +1,5 @@
 import argparse
 import getpass
-import os.path
 import time
 
 from selenium import webdriver
@@ -12,7 +11,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from .utils.util import format_date, get_envelope_from_alias
+from .utils.util import format_date, get_envelope_from_alias, parse_config
 
 
 def main():
@@ -32,8 +31,7 @@ def main():
     chrome_options.add_argument("--no-sandbox")
 
     # Set path to chromedriver as per your configuration
-    homedir = os.path.expanduser("~")
-    webdriver_service = Service(f"{homedir}/Downloads/chromedriver/stable/chromedriver")
+    webdriver_service = Service(parse_config()["webdriver_path"])
 
     # Choose Chrome Browser
     browser = webdriver.Chrome(service=webdriver_service, options=chrome_options)

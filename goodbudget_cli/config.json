@@ -1,5 +1,5 @@
 {
-    "Description": "Edit this file to assign aliases to your Goodbudget Envelopes.",
+    "webdriver_path": "/home/yphillip/Downloads/chromedriver/stable/chromedriver",
     "Envelopes": {
         "Misc:Required": [
             "misc required",

@@ -2,6 +2,16 @@ import datetime
 import json
 from pathlib import Path
 
+from typing import Dict
+
+
+def parse_config() -> Dict:
+    """Parse the config.json"""
+    current_dir = Path(__file__).parent
+    f = open(current_dir.parent / "config.json")
+    data = json.load(f)
+    return data
+
 
 def format_date(input_date: str) -> str:
     """Goodbudget's input date must be formatted as mm/dd/yyyy"""
@@ -35,11 +45,7 @@ def format_date(input_date: str) -> str:
 
 def get_envelope_from_alias(alias: str) -> str:
     """Determine the correct envelope given a alias"""
-    # Parse the envelopes out of config.json
-    current_dir = Path(__file__).parent
-    f = open(current_dir.parent / "config.json")
-    data = json.load(f)
-    envelopes_data = data["Envelopes"]
+    envelopes_data = parse_config()["Envelopes"]
 
     # Match alias to envelope
     alias = alias.lower()
