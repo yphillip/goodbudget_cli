@@ -28,7 +28,7 @@ class GbSeleniumDriver:
             "//button[@class='elementor-button elementor-size-sm "
             "elementor-animation-grow']",
         )
-        login_button.click()
+        self.driver.execute_script("arguments[0].click();", login_button)
         assert (
             self.driver.title == "Home | Goodbudget"
         ), f"Got browser title of {self.driver.title} instead"
@@ -42,6 +42,11 @@ class GbSeleniumDriver:
         self._enter_envelope(in_envelope)
         self._enter_notes(in_notes)
         self._click_save_transaction()
+
+    def exit_driver(self):
+        print("\nThank you for using goodbudget_cli! See you next time!")
+        self.driver.save_screenshot("screenshot.png")
+        self.driver.quit()
 
     def _initialize_driver(self):
         # Setup chrome options
@@ -76,22 +81,19 @@ class GbSeleniumDriver:
 
     def _enter_date(self, in_date):
         expense_date = self.driver.find_element(By.ID, "expense-date")
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(expense_date)
-        ).click()
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(expense_date))
+        self.driver.execute_script("arguments[0].click();", expense_date)
         expense_date.clear()
         expense_date.send_keys(in_date)
 
     def _enter_payee(self, in_payee):
         expense_payee = self.driver.find_element(By.ID, "expense-receiver")
-        expense_payee.click()
+        self.driver.execute_script("arguments[0].click();", expense_payee)
         expense_payee.send_keys(in_payee)
 
     def _enter_amount(self, in_amount):
         expense_amount = self.driver.find_element(By.ID, "expense-amount")
-        self.driver.execute_script(
-            "arguments[0].click();", expense_amount
-        )  # TODO: do this for other clicks
+        self.driver.execute_script("arguments[0].click();", expense_amount)
         expense_amount.send_keys(in_amount)
 
     def _enter_envelope(self, in_envelope):
@@ -108,18 +110,12 @@ class GbSeleniumDriver:
 
     def _enter_notes(self, in_notes):
         expense_notes = self.driver.find_element(By.ID, "expense-notes")
-        expense_notes.click()
+        self.driver.execute_script("arguments[0].click();", expense_notes)
         expense_notes.send_keys(in_notes)
-
-    def _exit_driver(self):
-        print("\nThank you for using goodbudget_cli! See you next time!")
-        self.driver.save_screenshot("screenshot.png")
-        self.driver.quit()
 
     def _click_save_transaction(self):
         # Click the Save button
         save_button = self.driver.find_element(By.ID, "addTransactionSave")
-        # save_button.click() didn't work, so have to use this
         self.driver.execute_script("arguments[0].click();", save_button)
 
         time.sleep(1)
