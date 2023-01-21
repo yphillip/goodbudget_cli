@@ -1,10 +1,5 @@
 import argparse
 import getpass
-import time
-
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 
 from .utils.util import format_date, get_envelope_from_alias, parse_config
 from .utils.driver import GbSeleniumDriver
@@ -51,49 +46,16 @@ def main():
 
         gb_driver.click_add_transation()
         gb_driver.enter_date(formatted_date)
+        gb_driver.enter_payee(input_payee)
+        gb_driver.enter_amount(input_amount)
+        gb_driver.enter_envelope(found_envelope)
+        gb_driver.enter_notes(input_notes)
+        gb_driver.click_save_transaction()
 
-        # Enter Payee
-        expense_payee = gb_driver.driver.find_element(By.ID, "expense-receiver")
-        expense_payee.click()
-        expense_payee.send_keys(input_payee)
-
-        # Enter Amount
-        expense_amount = gb_driver.driver.find_element(By.ID, "expense-amount")
-        # expense_amount.click()
-        gb_driver.driver.execute_script(
-            "arguments[0].click();", expense_amount
-        )  # TODO: do this for other clicks
-        expense_amount.send_keys(input_amount)
-
-        # Choose correct Envelope
-        # Could not get Selenium selector to work,
-        # so went with solution of typing out the first few letters
-        # of the desired envelope. This relies on the big assumption
-        # that the "Enter Amount" was the field visited right before this
-        actions = ActionChains(gb_driver.driver)
-        actions.send_keys(Keys.TAB)
-        actions.perform()
-        actions.send_keys(found_envelope)
-        actions.perform()
-
-        # Enter Notes
-        expense_notes = gb_driver.driver.find_element(By.ID, "expense-notes")
-        expense_notes.click()
-        expense_notes.send_keys(input_notes)
-
-        # Click the Save button
-        save_button = gb_driver.driver.find_element(By.ID, "addTransactionSave")
-        # save_button.click() didn't work, so have to use this
-        gb_driver.driver.execute_script("arguments[0].click();", save_button)
-
-        time.sleep(1)
-        print("Success! Your transaction was entered into Goodbudget.\n")
         input_more_transactions = input(
             "Do you want to enter another transaction? (Y/n) "
         )
         if input_more_transactions.lower() not in ["y", "yes"]:
             more_transactions = False
 
-    print("\nThank you for using goodbudget_cli! See you next time!")
-    gb_driver.driver.save_screenshot("screenshot.png")
-    gb_driver.driver.quit()
+    gb_driver.exit_driver()
