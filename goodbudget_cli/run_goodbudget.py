@@ -44,6 +44,7 @@ def main():
         print(summary_of_transaction)
         input_confirmation = input("Is everything correct? (Y/n) ")
         if input_confirmation.lower() not in ["y", "yes"]:
+            # TODO: allow user to retry entering a transaction
             print("Exiting the program.")
             quit()
 
