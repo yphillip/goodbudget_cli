@@ -12,30 +12,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class GbSeleniumDriver:
     def __init__(self, webdriver_path, use_gui):
-        # Setup chrome options
-        chrome_options = Options()
-        if not use_gui:
-            chrome_options.add_argument("--headless")  # Ensure GUI is off
-        chrome_options.add_argument("--no-sandbox")
-
-        # Set path to chromedriver as per your configuration
-        webdriver_service = Service(webdriver_path)
-
-        # Choose Chrome Browser
-        self.driver = webdriver.Chrome(
-            service=webdriver_service, options=chrome_options
-        )
-
-        self.driver.maximize_window()
-        self.driver.get("https://goodbudget.com/login")
-        # General check of the login page
-        # Extract description from page and print
-        description = self.driver.find_element(By.NAME, "description").get_attribute(
-            "content"
-        )
-        assert (
-            description == "Log in to Goodbudget. Budget well. Live life. Do good."
-        )  # subject to change
+        self.webdriver_path = webdriver_path
+        self.use_gui = use_gui
+        self.driver = self._initialize_driver()
 
     def log_in(self, in_username, in_password):
         username = self.driver.find_element(By.ID, "username")
@@ -63,6 +42,31 @@ class GbSeleniumDriver:
         self._enter_envelope(in_envelope)
         self._enter_notes(in_notes)
         self._click_save_transaction()
+
+    def _initialize_driver(self):
+        # Setup chrome options
+        chrome_options = Options()
+        if not self.use_gui:
+            chrome_options.add_argument("--headless")  # Ensure GUI is off
+        chrome_options.add_argument("--no-sandbox")
+
+        # Set path to chromedriver as per your configuration
+        webdriver_service = Service(self.webdriver_path)
+
+        # Choose Chrome Browser
+        driver = webdriver.Chrome(service=webdriver_service, options=chrome_options)
+
+        driver.maximize_window()
+        driver.get("https://goodbudget.com/login")
+        # General check of the login page
+        # Extract description from page and print
+        description = driver.find_element(By.NAME, "description").get_attribute(
+            "content"
+        )
+        assert (
+            description == "Log in to Goodbudget. Budget well. Live life. Do good."
+        )  # subject to change
+        return driver
 
     def _click_add_transation(self):
         add_transaction_button = self.driver.find_element(
