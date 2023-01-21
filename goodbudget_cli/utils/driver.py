@@ -54,6 +54,15 @@ class GbSeleniumDriver:
         ), f"Got browser title of {self.driver.title} instead"
         print("Logged in.\n")
 
+    def enter_transaction(self, in_date, in_payee, in_amount, in_envelope, in_notes):
+        self.click_add_transation()
+        self.enter_date(in_date)
+        self.enter_payee(in_payee)
+        self.enter_amount(in_amount)
+        self.enter_envelope(in_envelope)
+        self.enter_notes(in_notes)
+        self.click_save_transaction()
+
     def click_add_transation(self):
         add_transaction_button = self.driver.find_element(
             By.LINK_TEXT, "Add Transaction"
@@ -97,6 +106,11 @@ class GbSeleniumDriver:
         expense_notes.click()
         expense_notes.send_keys(in_notes)
 
+    def exit_driver(self):
+        print("\nThank you for using goodbudget_cli! See you next time!")
+        self.driver.save_screenshot("screenshot.png")
+        self.driver.quit()
+
     def click_save_transaction(self):
         # Click the Save button
         save_button = self.driver.find_element(By.ID, "addTransactionSave")
@@ -105,8 +119,3 @@ class GbSeleniumDriver:
 
         time.sleep(1)
         print("Success! Your transaction was entered into Goodbudget.\n")
-
-    def exit_driver(self):
-        print("\nThank you for using goodbudget_cli! See you next time!")
-        self.driver.save_screenshot("screenshot.png")
-        self.driver.quit()

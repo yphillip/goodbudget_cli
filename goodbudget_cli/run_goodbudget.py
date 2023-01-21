@@ -44,13 +44,9 @@ def main():
             print("Exiting the program.")
             quit()
 
-        gb_driver.click_add_transation()
-        gb_driver.enter_date(formatted_date)
-        gb_driver.enter_payee(input_payee)
-        gb_driver.enter_amount(input_amount)
-        gb_driver.enter_envelope(found_envelope)
-        gb_driver.enter_notes(input_notes)
-        gb_driver.click_save_transaction()
+        gb_driver.enter_transaction(
+            formatted_date, input_payee, input_amount, found_envelope, input_notes
+        )
 
         input_more_transactions = input(
             "Do you want to enter another transaction? (Y/n) "
