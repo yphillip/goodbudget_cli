@@ -22,21 +22,21 @@ def main():
 
     more_transactions = True
     while more_transactions:
-        input_date = input("Date of transaction (today / yesterday / mm/dd/yyyy): ")
-        formatted_date = format_date(input_date)
+        input_date = format_date(
+            input("Date of transaction (today / yesterday / mm/dd/yyyy): ")
+        )
         input_payee = input("Payee: ")
         input_amount = input("Amount: ")
-        input_envelope = input("Envelope: ")
-        found_envelope = get_envelope_from_alias(input_envelope)
+        input_envelope = get_envelope_from_alias(input("Envelope: "))
         input_notes = input("Notes (optional): ")
 
         summary_of_transaction = f"""
         Summary of your transcation:
 
-            Date: {formatted_date}
+            Date: {input_date}
             Payee: {input_payee}
             Amount: ${input_amount}
-            Envelope: {found_envelope} (based on your alias of '{input_envelope}')
+            Envelope: {input_envelope} (based on your alias of '{input_envelope}')
             Notes: {input_notes if input_notes else "<none>"}
         """
         print(summary_of_transaction)
@@ -46,7 +46,7 @@ def main():
             quit()
 
         gb_driver.enter_transaction(
-            formatted_date, input_payee, input_amount, found_envelope, input_notes
+            input_date, input_payee, input_amount, input_envelope, input_notes
         )
 
         input_more_transactions = input(
