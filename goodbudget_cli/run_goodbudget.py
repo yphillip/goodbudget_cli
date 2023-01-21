@@ -28,8 +28,7 @@ def main():
         )
         input_payee = input("Payee: ")
         input_amount = input("Amount: ")
-        # TODO: allow user to see what envelopes/aliases are available
-        input_envelope = get_envelope_from_alias(input("Envelope: "))
+        input_envelope = get_envelope_from_alias()
         input_notes = input("Notes (optional): ")
 
         summary_of_transaction = f"""

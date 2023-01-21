@@ -1,5 +1,6 @@
 import datetime
 import json
+import pprint
 from pathlib import Path
 from typing import Dict
 
@@ -42,18 +43,28 @@ def format_date(input_date: str) -> str:
     return formatted_date
 
 
-def get_envelope_from_alias(alias: str) -> str:
+def get_envelope_from_alias() -> str:
     """Determine the correct envelope given a alias"""
     envelopes_data = parse_config()["Envelopes"]
 
-    # Match alias to envelope
-    alias = alias.lower()
-    found = False
-    for envelope_name, aliases in envelopes_data.items():
-        if alias in aliases:
-            found_envelope = envelope_name
-            found = True
-            break
-    if not found:
-        raise ValueError(f"Could not determine which envelope '{alias}' belongs to!")
+    input_phrase = input("Envelope (or type in 'remind'): ")
+
+    if input_phrase.lower() == "remind":
+        print("These are your available envelopes and their aliases:\n")
+        pprint.pprint(envelopes_data, indent=4)
+        print("\n")
+        found_envelope = get_envelope_from_alias()
+    else:
+        # Match alias to envelope
+        input_phrase = input_phrase.lower()
+        found = False
+        for envelope_name, aliases in envelopes_data.items():
+            if input_phrase in aliases:
+                found_envelope = envelope_name
+                found = True
+                break
+        if not found:
+            raise ValueError(
+                f"Could not determine which envelope '{input_phrase}' belongs to!"
+            )
     return found_envelope
