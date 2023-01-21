@@ -100,10 +100,11 @@ class GbSeleniumDriver:
         # Choose correct Envelope
         # Could not get Selenium selector to work,
         # so went with solution of typing out the first few letters
-        # of the desired envelope. This relies on the big assumption
-        # that the "Enter Amount" was the field visited right before this
+        # of the desired envelope.
         actions = ActionChains(self.driver)
-        actions.send_keys(Keys.TAB)
+        actions.send_keys(
+            Keys.TAB
+        )  # Big assumption that "Enter Amount" was last field visited
         actions.perform()
         actions.send_keys(in_envelope)
         actions.perform()
