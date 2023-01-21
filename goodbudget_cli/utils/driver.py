@@ -11,10 +11,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class GbSeleniumDriver:
-    def __init__(self, webdriver_path):
+    def __init__(self, webdriver_path, use_gui):
         # Setup chrome options
         chrome_options = Options()
-        chrome_options.add_argument("--headless")  # Ensure GUI is off
+        if not use_gui:
+            chrome_options.add_argument("--headless")  # Ensure GUI is off
         chrome_options.add_argument("--no-sandbox")
 
         # Set path to chromedriver as per your configuration

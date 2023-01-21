@@ -9,6 +9,7 @@ def main():
     # Parser for login email
     parser = argparse.ArgumentParser()
     parser.add_argument("username", help="Username for Goodbudget", action="store")
+    parser.add_argument("-g", "--use-gui", help="show the browser", action="store_true")
     args = parser.parse_args()
 
     # Get password
@@ -16,7 +17,7 @@ def main():
 
     print("Logging in. Please wait...")
 
-    gb_driver = GbSeleniumDriver(parse_config()["webdriver_path"])
+    gb_driver = GbSeleniumDriver(parse_config()["webdriver_path"], args.use_gui)
     gb_driver.log_in(args.username, gb_password)
 
     more_transactions = True
