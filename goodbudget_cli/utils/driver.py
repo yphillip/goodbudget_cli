@@ -56,21 +56,21 @@ class GbSeleniumDriver:
         print("Logged in.\n")
 
     def enter_transaction(self, in_date, in_payee, in_amount, in_envelope, in_notes):
-        self.click_add_transation()
-        self.enter_date(in_date)
-        self.enter_payee(in_payee)
-        self.enter_amount(in_amount)
-        self.enter_envelope(in_envelope)
-        self.enter_notes(in_notes)
-        self.click_save_transaction()
+        self._click_add_transation()
+        self._enter_date(in_date)
+        self._enter_payee(in_payee)
+        self._enter_amount(in_amount)
+        self._enter_envelope(in_envelope)
+        self._enter_notes(in_notes)
+        self._click_save_transaction()
 
-    def click_add_transation(self):
+    def _click_add_transation(self):
         add_transaction_button = self.driver.find_element(
             By.LINK_TEXT, "Add Transaction"
         )
         self.driver.execute_script("arguments[0].click();", add_transaction_button)
 
-    def enter_date(self, in_date):
+    def _enter_date(self, in_date):
         expense_date = self.driver.find_element(By.ID, "expense-date")
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable(expense_date)
@@ -78,19 +78,19 @@ class GbSeleniumDriver:
         expense_date.clear()
         expense_date.send_keys(in_date)
 
-    def enter_payee(self, in_payee):
+    def _enter_payee(self, in_payee):
         expense_payee = self.driver.find_element(By.ID, "expense-receiver")
         expense_payee.click()
         expense_payee.send_keys(in_payee)
 
-    def enter_amount(self, in_amount):
+    def _enter_amount(self, in_amount):
         expense_amount = self.driver.find_element(By.ID, "expense-amount")
         self.driver.execute_script(
             "arguments[0].click();", expense_amount
         )  # TODO: do this for other clicks
         expense_amount.send_keys(in_amount)
 
-    def enter_envelope(self, in_envelope):
+    def _enter_envelope(self, in_envelope):
         # Choose correct Envelope
         # Could not get Selenium selector to work,
         # so went with solution of typing out the first few letters
@@ -102,17 +102,17 @@ class GbSeleniumDriver:
         actions.send_keys(in_envelope)
         actions.perform()
 
-    def enter_notes(self, in_notes):
+    def _enter_notes(self, in_notes):
         expense_notes = self.driver.find_element(By.ID, "expense-notes")
         expense_notes.click()
         expense_notes.send_keys(in_notes)
 
-    def exit_driver(self):
+    def _exit_driver(self):
         print("\nThank you for using goodbudget_cli! See you next time!")
         self.driver.save_screenshot("screenshot.png")
         self.driver.quit()
 
-    def click_save_transaction(self):
+    def _click_save_transaction(self):
         # Click the Save button
         save_button = self.driver.find_element(By.ID, "addTransactionSave")
         # save_button.click() didn't work, so have to use this

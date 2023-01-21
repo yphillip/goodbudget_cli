@@ -1,8 +1,8 @@
 import argparse
 import getpass
 
-from .utils.util import format_date, get_envelope_from_alias, parse_config
 from .utils.driver import GbSeleniumDriver
+from .utils.util import format_date, get_envelope_from_alias, parse_config
 
 
 def main():
