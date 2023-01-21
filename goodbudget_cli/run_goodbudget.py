@@ -5,8 +5,6 @@ import time
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 
 from .utils.util import format_date, get_envelope_from_alias, parse_config
 from .utils.driver import GbSeleniumDriver
@@ -24,36 +22,7 @@ def main():
     print("Logging in. Please wait...")
 
     gb_driver = GbSeleniumDriver(parse_config()["webdriver_path"])
-
-    # Get page
-    gb_driver.driver.get("https://goodbudget.com/login")
-
-    # General check of the login page
-    # Extract description from page and print
-    description = gb_driver.driver.find_element(By.NAME, "description").get_attribute(
-        "content"
-    )
-    assert (
-        description == "Log in to Goodbudget. Budget well. Live life. Do good."
-    )  # subject to change
-
-    # Log in
-    username = gb_driver.driver.find_element(By.ID, "username")
-    username.send_keys(args.username)
-
-    password = gb_driver.driver.find_element(By.ID, "password")
-    password.send_keys(gb_password)
-
-    login_button = gb_driver.driver.find_element(
-        By.XPATH,
-        "//button[@class='elementor-button elementor-size-sm "
-        "elementor-animation-grow']",
-    )
-    login_button.click()
-    assert (
-        gb_driver.driver.title == "Home | Goodbudget"
-    ), f"Got browser title of {gb_driver.driver.title} instead"
-    print("Logged in.\n")
+    gb_driver.log_in(args.username, gb_password)
 
     more_transactions = True
     while more_transactions:
@@ -80,20 +49,8 @@ def main():
             print("Exiting the program.")
             quit()
 
-        # Click the Add Transaction button
-        add_transaction_button = gb_driver.driver.find_element(
-            By.LINK_TEXT, "Add Transaction"
-        )
-        gb_driver.driver.execute_script("arguments[0].click();", add_transaction_button)
-
-        # Clear out the Date
-        expense_date = gb_driver.driver.find_element(By.ID, "expense-date")
-        WebDriverWait(gb_driver.driver, 10).until(
-            EC.element_to_be_clickable(expense_date)
-        ).click()
-        expense_date.clear()
-        # Enter the correct Date
-        expense_date.send_keys(formatted_date)
+        gb_driver.click_add_transation()
+        gb_driver.enter_date(formatted_date)
 
         # Enter Payee
         expense_payee = gb_driver.driver.find_element(By.ID, "expense-receiver")
