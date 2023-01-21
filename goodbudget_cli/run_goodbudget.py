@@ -15,11 +15,12 @@ def main():
     # Get password
     gb_password = getpass.getpass(prompt="Enter your Goodbudget password: ")
 
+    # Log in
     print("Logging in. Please wait...")
-
     gb_driver = GbSeleniumDriver(parse_config()["webdriver_path"], args.use_gui)
     gb_driver.log_in(args.username, gb_password)
 
+    # Allow user to keep adding new transactions until they're done
     more_transactions = True
     while more_transactions:
         input_date = format_date(
