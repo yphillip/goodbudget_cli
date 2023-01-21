@@ -35,9 +35,9 @@ def format_date(input_date: str) -> str:
 
 def get_envelope_from_alias(alias: str) -> str:
     """Determine the correct envelope given a alias"""
-    # Parse the envelopes.json
+    # Parse the envelopes out of config.json
     current_dir = Path(__file__).parent
-    f = open(current_dir.parent / "envelopes.json")
+    f = open(current_dir.parent / "config.json")
     data = json.load(f)
     envelopes_data = data["Envelopes"]
 
