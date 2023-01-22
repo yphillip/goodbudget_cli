@@ -32,6 +32,7 @@ class GbSeleniumDriver:
     """
 
     def __init__(self, webdriver_path, use_gui, screenshot):
+        """Sets class attributes and initializes driver."""
         self.webdriver_path = webdriver_path
         self.use_gui = use_gui
         self.screenshot = screenshot
