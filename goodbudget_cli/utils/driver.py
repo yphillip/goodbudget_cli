@@ -11,9 +11,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class GbSeleniumDriver:
-    def __init__(self, webdriver_path, use_gui):
+    def __init__(self, webdriver_path, use_gui, screenshot):
         self.webdriver_path = webdriver_path
         self.use_gui = use_gui
+        self.screenshot = screenshot
         self.driver = self._initialize_driver()
 
     def log_in(self, in_username, in_password):
@@ -35,6 +36,7 @@ class GbSeleniumDriver:
         print("Logged in.\n")
 
     def enter_transaction(self, in_date, in_payee, in_amount, in_envelope, in_notes):
+        print("Entering transaction. Please wait...\n")
         self._click_add_transation()
         self._enter_date(in_date)
         self._enter_payee(in_payee)
@@ -44,8 +46,10 @@ class GbSeleniumDriver:
         self._click_save_transaction()
 
     def exit_driver(self):
+        if self.screenshot:
+            self.driver.save_screenshot("screenshot.png")
+            print("\nScreenshot saved to screenshot.png")
         print("\nThank you for using goodbudget_cli! See you next time!")
-        self.driver.save_screenshot("screenshot.png")
         self.driver.quit()
 
     def _initialize_driver(self):
@@ -54,6 +58,7 @@ class GbSeleniumDriver:
         if not self.use_gui:
             chrome_options.add_argument("--headless")  # Ensure GUI is off
         chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("window-size=1024x768")
 
         # Set path to chromedriver as per your configuration
         webdriver_service = Service(self.webdriver_path)
@@ -62,6 +67,7 @@ class GbSeleniumDriver:
         driver = webdriver.Chrome(service=webdriver_service, options=chrome_options)
 
         driver.maximize_window()
+
         driver.get("https://goodbudget.com/login")
         # General check of the login page
         # Extract description from page and print
