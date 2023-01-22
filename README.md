@@ -9,7 +9,7 @@ Command line tool to enter transactions into your [Goodbudget](https://goodbudge
 ### Clone and install
 ```
 $ git clone git@github.com:yphillip/goodbudget_cli.git
-$ pipx install ./goodbudget_cli
+$ pipx install --editable ./goodbudget_cli
 ```
 ### Edit the `goodbudget_cli/config.json`
 1. Set the `webdriver_path` to the location of your Chrome webdriver
