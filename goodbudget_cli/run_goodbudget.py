@@ -6,6 +6,7 @@ from .utils.util import format_date, get_envelope_from_alias, parse_config
 
 
 def main():
+    """Main entry point for running goodbudget_cli."""
     # Parser for login email
     parser = argparse.ArgumentParser()
     parser.add_argument("username", help="Username for Goodbudget", action="store")

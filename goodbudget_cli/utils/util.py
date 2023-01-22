@@ -6,7 +6,7 @@ from typing import Dict
 
 
 def parse_config() -> Dict:
-    """Parse the config.json"""
+    """Parse the config.json, returns as dictionary."""
     current_dir = Path(__file__).parent
     f = open(current_dir.parent / "config.json")
     data = json.load(f)
@@ -14,8 +14,7 @@ def parse_config() -> Dict:
 
 
 def format_date(input_date: str) -> str:
-    """Goodbudget's input date must be formatted as mm/dd/yyyy"""
-
+    """Format input date as mm/dd/yyyy."""
     if input_date.lower() == "today":
         current_day = datetime.date.today()
         formatted_date = datetime.date.strftime(current_day, "%m/%d/%Y")
@@ -44,7 +43,7 @@ def format_date(input_date: str) -> str:
 
 
 def get_envelope_from_alias() -> str:
-    """Determine the correct envelope given a alias"""
+    """Determine the correct envelope given a alias."""
     envelopes_data = parse_config()["Envelopes"]
 
     input_phrase = input("Envelope (or type in 'remind'): ")
