@@ -64,7 +64,8 @@ def get_envelope_from_alias() -> str:
                 found = True
                 break
         if not found:
-            raise ValueError(
-                f"Could not determine which envelope '{input_phrase}' belongs to!"
-            )  # TODO: try again with envelope
+            print(f"Could not determine which envelope {input_phrase} belongs to!")
+            print("Please try again.\n")
+            found_envelope = get_envelope_from_alias()
+
     return found_envelope
