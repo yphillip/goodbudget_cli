@@ -13,7 +13,7 @@ $ pipx install ./goodbudget_cli
 ```
 ### Initialize and edit the configuration file
 1. Run `gb` to initially create a `~/.config/goodbudget_cli/config.json` file.
-2. Edit the `config.json` file to set the `webdriver_path` to the location of your Chrome webdriver
+2. Edit the `config.json` file to set the `webdriver_path` to the location of your Chrome webdriver.
 3. Edit the `config.json` file to set the `Envelopes` using the name of your Goodbudget envelopes using the format of `{ENVELOPE_NAME: [LIST OF ALIASES]}`.
 ## Usage
 ```
