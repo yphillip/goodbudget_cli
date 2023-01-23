@@ -55,6 +55,7 @@ class GbSeleniumDriver:
         assert (
             self.driver.title == "Home | Goodbudget"
         ), f"Got browser title of {self.driver.title} instead"
+        # TODO: allow user to retry entering password
         print("Logged in.\n")
 
     def enter_transaction(self, in_date, in_payee, in_amount, in_envelope, in_notes):
