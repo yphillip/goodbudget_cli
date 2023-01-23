@@ -1,1 +1,2 @@
 include goodbudget_cli/config.json
+include README.md

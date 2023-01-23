@@ -6,10 +6,9 @@ Command line tool to enter transactions into your [Goodbudget](https://goodbudge
 ### Dependencies
 - Selenium Chrome Webdriver ([example of installation instructions](https://cloudbytes.dev/snippets/run-selenium-and-chrome-on-wsl2))
 
-### Clone and install
+### Install with pipx (or pip)
 ```
-$ git clone git@github.com:yphillip/goodbudget_cli.git
-$ pipx install ./goodbudget_cli
+$ pipx install goodbudget-cli
 ```
 ### Initialize and edit the configuration file
 1. Run `gb` to initially create a `~/.config/goodbudget_cli/config.json` file.
