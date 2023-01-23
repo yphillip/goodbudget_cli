@@ -18,7 +18,6 @@ def parse_config() -> Dict:
 def check_config_json() -> None:
     """Create a config.json in ~/.config/goodbudget_cli if it doesn't exist"""
     config_json = Path("~/.config/goodbudget_cli/config.json").expanduser()
-    # breakpoint()
     if not os.path.exists(config_json):
         os.makedirs(config_json.parent, exist_ok=True)
         source = Path(__file__).parent.parent / "config.json"
