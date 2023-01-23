@@ -3,10 +3,10 @@ import getpass
 
 from .utils.driver import GbSeleniumDriver
 from .utils.util import (
+    check_config_json,
     format_date,
     get_envelope_from_alias,
     parse_config,
-    check_config_json,
 )
 
 

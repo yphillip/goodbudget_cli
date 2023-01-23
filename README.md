@@ -9,11 +9,12 @@ Command line tool to enter transactions into your [Goodbudget](https://goodbudge
 ### Clone and install
 ```
 $ git clone git@github.com:yphillip/goodbudget_cli.git
-$ pipx install --editable ./goodbudget_cli
+$ pipx install ./goodbudget_cli
 ```
-### Edit the `goodbudget_cli/config.json`
-1. Set the `webdriver_path` to the location of your Chrome webdriver
-2. Set the `Envelopes` using the name of your Goodbudget envelopes using the format of `{ENVELOP_NAME: [LIST OF ALIASES]}`.
+### Initialize and edit the configuration file
+1. Run `gb {Goodbudget household username or email}` to initially create a `~/.config/goodbudget_cli/config.json` file. 
+2. Edit the `config.json` file to set the `webdriver_path` to the location of your Chrome webdriver
+3. Edit the `config.json` file to set the `Envelopes` using the name of your Goodbudget envelopes using the format of `{ENVELOPE_NAME: [LIST OF ALIASES]}`.
 ## Usage
 ```
 $ gb {Goodbudget household username or email}
@@ -29,7 +30,7 @@ Logged in.
 Date of transaction (today / yesterday / mm/dd/yyyy): today
 Payee: QFC
 Amount: $40.00
-Envelope: groceries
+Envelope (or type in 'remind'): groceries
 Notes (optional):
 
         Summary of your transcation:
