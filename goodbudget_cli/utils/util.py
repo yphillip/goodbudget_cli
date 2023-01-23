@@ -1,16 +1,35 @@
+import os
 import datetime
 import json
 import pprint
+import shutil
 from pathlib import Path
 from typing import Dict
 
 
 def parse_config() -> Dict:
     """Parse the config.json, returns as dictionary."""
-    current_dir = Path(__file__).parent
-    f = open(current_dir.parent / "config.json")
+    config_json = Path("~/.config/goodbudget_cli/config.json").expanduser()
+    f = open(config_json)
     data = json.load(f)
     return data
+
+
+def check_config_json() -> None:
+    """Create a config.json in ~/.config/goodbudget_cli if it doesn't exist"""
+    config_json = Path("~/.config/goodbudget_cli/config.json").expanduser()
+    # breakpoint()
+    if not os.path.exists(config_json):
+        os.makedirs(config_json.parent, exist_ok=True)
+        source = Path(__file__).parent.parent / "config.json"
+        shutil.copyfile(source, config_json)
+        print(f"WARNING! {config_json} was not found.")
+        print("Don't worry, we made one for you.")
+        print(
+            f"Please go edit {config_json} to set your configuration settings,\n"
+            "and then run `gb` again."
+        )
+        quit()
 
 
 def format_date(input_date: str) -> str:

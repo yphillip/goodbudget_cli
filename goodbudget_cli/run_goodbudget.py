@@ -2,11 +2,19 @@ import argparse
 import getpass
 
 from .utils.driver import GbSeleniumDriver
-from .utils.util import format_date, get_envelope_from_alias, parse_config
+from .utils.util import (
+    format_date,
+    get_envelope_from_alias,
+    parse_config,
+    check_config_json,
+)
 
 
 def main():
     """Main entry point for running goodbudget_cli."""
+    # initialize .config/goodbudget_cli/config.json
+    check_config_json()
+
     # Parser for login email
     parser = argparse.ArgumentParser()
     parser.add_argument("username", help="Username for Goodbudget", action="store")
