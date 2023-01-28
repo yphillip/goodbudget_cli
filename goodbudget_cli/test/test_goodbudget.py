@@ -3,8 +3,8 @@ from datetime import datetime
 
 import pytest
 
-from ..utils.driver import GbSeleniumDriver
-from ..utils.util import format_date, get_envelope_from_alias, parse_config
+from goodbudget_cli.utils.driver import GbSeleniumDriver
+from goodbudget_cli.utils.util import format_date, get_envelope_from_alias, parse_config
 
 
 @pytest.fixture(scope="session")
