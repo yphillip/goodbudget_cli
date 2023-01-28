@@ -45,7 +45,11 @@ def main():
         )
         input_payee = input("Payee: ")
         input_amount = input("Amount: ")
-        input_envelope = get_envelope_from_alias()
+        input_envelope = None
+        while not input_envelope:
+            input_envelope = get_envelope_from_alias(
+                input("Envelope (or type in 'remind'): ")
+            )
         input_notes = input("Notes (optional): ")
 
         summary_of_transaction = f"""

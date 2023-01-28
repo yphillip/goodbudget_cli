@@ -31,7 +31,7 @@ class GbSeleniumDriver:
         exit_driver(): quits the webdriver
     """
 
-    def __init__(self, webdriver_path, use_gui, screenshot):
+    def __init__(self, webdriver_path, use_gui=False, screenshot=False):
         """Sets class attributes and initializes driver."""
         self.webdriver_path = webdriver_path
         self.use_gui = use_gui
@@ -58,7 +58,9 @@ class GbSeleniumDriver:
         # TODO: allow user to retry entering password
         print("Logged in.\n")
 
-    def enter_transaction(self, in_date, in_payee, in_amount, in_envelope, in_notes):
+    def enter_transaction(
+        self, in_date, in_payee, in_amount, in_envelope, in_notes=None
+    ):
         """Enters a transaction into goodbudget."""
         print("Entering transaction. Please wait...\n")
         self._click_add_transation()
@@ -147,6 +149,8 @@ class GbSeleniumDriver:
 
     def _enter_notes(self, in_notes):
         "Enters the transaction notes in the Notes field."
+        if not in_notes:
+            in_notes = ""
         expense_notes = self.driver.find_element(By.ID, "expense-notes")
         self.driver.execute_script("arguments[0].click();", expense_notes)
         expense_notes.send_keys(in_notes)
