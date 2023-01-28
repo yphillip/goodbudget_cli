@@ -60,17 +60,15 @@ def format_date(input_date: str) -> str:
     return formatted_date
 
 
-def get_envelope_from_alias() -> str:
+def get_envelope_from_alias(input_phrase: str) -> str:
     """Determine the correct envelope given a alias."""
     envelopes_data = parse_config()["Envelopes"]
-
-    input_phrase = input("Envelope (or type in 'remind'): ")
 
     if input_phrase.lower() == "remind":
         print("These are your available envelopes and their aliases:\n")
         pprint.pprint(envelopes_data, indent=4)
         print("\n")
-        found_envelope = get_envelope_from_alias()
+        return
     else:
         # Match alias to envelope
         input_phrase = input_phrase.lower()
@@ -83,6 +81,6 @@ def get_envelope_from_alias() -> str:
         if not found:
             print(f"Could not determine which envelope {input_phrase} belongs to!")
             print("Please try again.\n")
-            found_envelope = get_envelope_from_alias()
+            return
 
     return found_envelope
