@@ -20,7 +20,7 @@ def gb_driver():
     driver.exit_driver()
 
 
-def test_add_transaction(gb_driver):
+def test_add_transaction(capsys, gb_driver):
     """Test of adding a transaction"""
     now = datetime.now()
     date_time = now.strftime("%H:%M:%S")
@@ -32,3 +32,5 @@ def test_add_transaction(gb_driver):
         in_envelope=get_envelope_from_alias("pure fun"),
         in_notes="TEST_NOTE",
     )
+    captured = capsys.readouterr()
+    assert "Success! Your transaction was entered into Goodbudget." in captured.out
