@@ -11,10 +11,10 @@ from goodbudget_cli.utils.util import format_date, get_envelope_from_alias, pars
 def gb_driver():
     """Fixture for instantiated GbSeleniumDriver class"""
     driver = GbSeleniumDriver(parse_config()["webdriver_path"])
-    # Set this in your shell with export gbemail=<login email>
     user = os.getenv("gbemail")
-    # Set this in your shell with export gbpw=<login password>
+    assert user, "Please set in your shell: export gbemail=<login email>"
     password = os.getenv("gbpw")
+    assert password, "Please set in your shell: export gbpw=<login password>"
     driver.log_in(user, password)
     yield driver
     driver.exit_driver()
