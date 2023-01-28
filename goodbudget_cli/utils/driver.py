@@ -147,7 +147,7 @@ class GbSeleniumDriver:
         actions.send_keys(in_envelope)
         actions.perform()
 
-    def _enter_notes(self, in_notes):
+    def _enter_notes(self, in_notes=None):
         "Enters the transaction notes in the Notes field."
         if not in_notes:
             in_notes = ""
