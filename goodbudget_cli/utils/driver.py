@@ -28,6 +28,12 @@ class GbSeleniumDriver:
             in_envelope,
             in_notes
         ): enter an expense into goodbudget
+        enter_income(
+            in_date,
+            in_payee,
+            in_amount,
+            in_notes
+        ): enter an income into goodbudget
         exit_driver(): quits the webdriver
     """
 
@@ -66,6 +72,17 @@ class GbSeleniumDriver:
         self._enter_payee(in_payee)
         self._enter_amount(in_amount)
         self._enter_envelope(in_envelope)
+        self._enter_notes(in_notes)
+        self._click_save_transaction()
+
+    def enter_income(self, in_date, in_payer, in_amount, in_notes=None):
+        """Enters an income into goodbudget."""
+        print("Entering income. Please wait...\n")
+        self._click_add_transation()
+        self._click_income()
+        self._enter_date(in_date)
+        self._enter_payer(in_payer)
+        self._enter_amount(in_amount)
         self._enter_notes(in_notes)
         self._click_save_transaction()
 
@@ -112,6 +129,11 @@ class GbSeleniumDriver:
         )
         self.driver.execute_script("arguments[0].click();", add_transaction_button)
 
+    def _click_income(self):
+        "Clicks the Income tab in the Add Transaction floating window"
+        income_button = self.driver.find_element(By.LINK_TEXT, "Income")
+        self.driver.execute_script("arguments[0].click();", income_button)
+
     def _enter_date(self, in_date):
         "Enters the transaction date in the Date field."
         expense_date = self.driver.find_element(By.ID, "expense-date")
@@ -119,6 +141,12 @@ class GbSeleniumDriver:
         self.driver.execute_script("arguments[0].click();", expense_date)
         expense_date.clear()
         expense_date.send_keys(in_date)
+
+    def _enter_payer(self, in_payer):
+        "Enters the transaction payer in the payer field."
+        income_payer = self.driver.find_element(By.ID, "income-payer")
+        self.driver.execute_script("arguments[0].click();", income_payer)
+        income_payer.send_keys(in_payer)
 
     def _enter_payee(self, in_payee):
         "Enters the transaction payee in the payee field."
