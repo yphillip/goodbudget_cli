@@ -80,10 +80,10 @@ class GbSeleniumDriver:
         print("Entering income. Please wait...\n")
         self._click_add_transation()
         self._click_income()
-        self._enter_date(in_date)
-        self._enter_payer(in_payer)
-        self._enter_amount(in_amount)
-        self._enter_notes(in_notes)
+        self._enter_income_date(in_date)
+        self._enter_income_payer(in_payer)
+        self._enter_income_amount(in_amount)
+        self._enter_income_notes(in_notes)
         self._click_save_transaction()
 
     def exit_driver(self):
@@ -131,6 +131,7 @@ class GbSeleniumDriver:
 
     def _click_income(self):
         "Clicks the Income tab in the Add Transaction floating window"
+        time.sleep(1)
         income_button = self.driver.find_element(By.LINK_TEXT, "Income")
         self.driver.execute_script("arguments[0].click();", income_button)
 
@@ -142,8 +143,16 @@ class GbSeleniumDriver:
         expense_date.clear()
         expense_date.send_keys(in_date)
 
-    def _enter_payer(self, in_payer):
-        "Enters the transaction payer in the payer field."
+    def _enter_income_date(self, in_date):
+        "Enters the income date in the Date field."
+        income_date = self.driver.find_element(By.ID, "income-date")
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(income_date))
+        self.driver.execute_script("arguments[0].click();", income_date)
+        income_date.clear()
+        income_date.send_keys(in_date)
+
+    def _enter_income_payer(self, in_payer):
+        "Enters the income payer in the payer field."
         income_payer = self.driver.find_element(By.ID, "income-payer")
         self.driver.execute_script("arguments[0].click();", income_payer)
         income_payer.send_keys(in_payer)
@@ -159,6 +168,12 @@ class GbSeleniumDriver:
         expense_amount = self.driver.find_element(By.ID, "expense-amount")
         self.driver.execute_script("arguments[0].click();", expense_amount)
         expense_amount.send_keys(in_amount)
+
+    def _enter_income_amount(self, in_amount):
+        "Enters the income dollar amount in the Amount field."
+        income_amount = self.driver.find_element(By.NAME, "income-amount")
+        self.driver.execute_script("arguments[0].click();", income_amount)
+        income_amount.send_keys(in_amount)
 
     def _enter_envelope(self, in_envelope):
         """Chooses the correct envelope from the Envelope dropdown menu."""
@@ -180,6 +195,14 @@ class GbSeleniumDriver:
         expense_notes = self.driver.find_element(By.ID, "expense-notes")
         self.driver.execute_script("arguments[0].click();", expense_notes)
         expense_notes.send_keys(in_notes)
+
+    def _enter_income_notes(self, in_notes=None):
+        "Enters the income notes in the Notes field."
+        if not in_notes:
+            in_notes = ""
+        income_notes = self.driver.find_element(By.ID, "income-notes")
+        self.driver.execute_script("arguments[0].click();", income_notes)
+        income_notes.send_keys(in_notes)
 
     def _click_save_transaction(self):
         "Clicks the Save button"

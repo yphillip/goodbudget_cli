@@ -35,3 +35,19 @@ def test_add_expense(capsys, gb_driver):
     captured = capsys.readouterr()
     assert "Entering expense. Please wait..." in captured.out
     assert "Success! Your transaction was entered into Goodbudget." in captured.out
+
+
+def test_add_income(capsys, gb_driver):
+    """Test of adding an income"""
+    now = datetime.now()
+    date_time = now.strftime("%H:%M:%S")
+
+    gb_driver.enter_income(
+        in_date=format_date("today"),
+        in_payer=f"TEST_PAYER {date_time}",
+        in_amount="44.44",
+        in_notes="TEST_NOTE",
+    )
+    captured = capsys.readouterr()
+    assert "Entering income. Please wait..." in captured.out
+    assert "Success! Your transaction was entered into Goodbudget." in captured.out
