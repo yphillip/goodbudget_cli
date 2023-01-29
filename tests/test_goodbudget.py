@@ -20,12 +20,12 @@ def gb_driver():
     driver.exit_driver()
 
 
-def test_add_transaction(capsys, gb_driver):
-    """Test of adding a transaction"""
+def test_add_expense(capsys, gb_driver):
+    """Test of adding an expense"""
     now = datetime.now()
     date_time = now.strftime("%H:%M:%S")
 
-    gb_driver.enter_transaction(
+    gb_driver.enter_expense(
         in_date=format_date("today"),
         in_payee=f"TEST_PAYEE {date_time}",
         in_amount="99.99",
@@ -33,4 +33,21 @@ def test_add_transaction(capsys, gb_driver):
         in_notes="TEST_NOTE",
     )
     captured = capsys.readouterr()
+    assert "Entering expense. Please wait..." in captured.out
+    assert "Success! Your transaction was entered into Goodbudget." in captured.out
+
+
+def test_add_income(capsys, gb_driver):
+    """Test of adding an income"""
+    now = datetime.now()
+    date_time = now.strftime("%H:%M:%S")
+
+    gb_driver.enter_income(
+        in_date=format_date("today"),
+        in_payer=f"TEST_PAYER {date_time}",
+        in_amount="44.44",
+        in_notes="TEST_NOTE",
+    )
+    captured = capsys.readouterr()
+    assert "Entering income. Please wait..." in captured.out
     assert "Success! Your transaction was entered into Goodbudget." in captured.out

@@ -15,8 +15,13 @@ $ pipx install goodbudget-cli
 2. Edit the `config.json` file to set the `webdriver_path` to the location of your Chrome webdriver.
 3. Edit the `config.json` file to set the `Envelopes` using the name of your Goodbudget envelopes using the format of `{ENVELOPE_NAME: [LIST OF ALIASES]}`.
 ## Usage
+To enter an expense:
 ```
 $ gb {Goodbudget household username or email}
+```
+To enter income:
+```
+$ gb {Goodbudget household username or email}  --income
 ```
 
 ## Demo
@@ -28,19 +33,21 @@ Logged in.
 
 Date of transaction (today / yesterday / mm/dd/yyyy): today
 Payee: QFC
-Amount: $40.00
+Amount: 40
 Envelope (or type in 'remind'): groceries
 Notes (optional):
 
-        Summary of your transcation:
+        Summary of your expense:
 
-            Date: 01/20/2023
+            Date: 01/28/2023
             Payee: QFC
-            Amount: $40.00
+            Amount: $40
             Envelope: Groceries (based on your alias of 'groceries')
             Notes: <none>
 
 Is everything correct? (Y/n) Y
+Entering expense. Please wait...
+
 Success! Your transaction was entered into Goodbudget.
 
 Do you want to enter another transaction? (Y/n) n
