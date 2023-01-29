@@ -1,5 +1,6 @@
 import argparse
 import getpass
+import sys
 
 from .utils.driver import GbSeleniumDriver
 from .utils.util import (
@@ -28,15 +29,26 @@ def main():
     )
     args = parser.parse_args()
 
-    # Get password
-    gb_password = getpass.getpass(prompt="Enter your Goodbudget password: ")
+    # Three attempts to log in with the correct password
+    log_in_successful = False
+    gb_driver = None
+    for _ in range(3):
+        gb_password = getpass.getpass(prompt="Enter your Goodbudget password: ")
+        print("Logging in. Please wait...")
+        if gb_driver is None:
+            gb_driver = GbSeleniumDriver(
+                parse_config()["webdriver_path"], args.use_gui, args.screenshot
+            )
+        if gb_driver.log_in(args.username, gb_password):
+            log_in_successful = True
+            break
+        else:
+            print("Incorrect password. Please try again.")
 
-    # Log in
-    print("Logging in. Please wait...")
-    gb_driver = GbSeleniumDriver(
-        parse_config()["webdriver_path"], args.use_gui, args.screenshot
-    )
-    gb_driver.log_in(args.username, gb_password)
+    if not log_in_successful:
+        print("Too many incorrect password attempts. Exiting now.")
+        gb_driver.exit_driver()
+        sys.exit()
 
     # Allow user to keep adding new transactions until they're done
     more_transactions = True

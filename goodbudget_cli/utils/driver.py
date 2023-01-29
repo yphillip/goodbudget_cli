@@ -45,11 +45,13 @@ class GbSeleniumDriver:
         self.driver = self._initialize_driver()
 
     def log_in(self, in_username, in_password):
-        """Logs into goodbudget."""
+        """Logs into goodbudget. Returns True if log in successful, False otherwise"""
         username = self.driver.find_element(By.ID, "username")
+        username.clear()
         username.send_keys(in_username)
 
         password = self.driver.find_element(By.ID, "password")
+        password.clear()
         password.send_keys(in_password)
 
         login_button = self.driver.find_element(
@@ -58,11 +60,11 @@ class GbSeleniumDriver:
             "elementor-animation-grow']",
         )
         self.driver.execute_script("arguments[0].click();", login_button)
-        assert (
-            self.driver.title == "Home | Goodbudget"
-        ), f"Got browser title of {self.driver.title} instead"
-        # TODO: allow user to retry entering password
-        print("Logged in.\n")
+        if self.driver.title == "Home | Goodbudget":
+            print("Logged in.\n")
+            return True
+        else:
+            return False
 
     def enter_expense(self, in_date, in_payee, in_amount, in_envelope, in_notes=None):
         """Enters an expense into goodbudget."""
