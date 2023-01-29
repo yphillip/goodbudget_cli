@@ -35,6 +35,7 @@ def main():
     for _ in range(3):
         gb_password = getpass.getpass(prompt="Enter your Goodbudget password: ")
         print("Logging in. Please wait...")
+        # Initialize gb_driver here this way because this is a slow step
         if gb_driver is None:
             gb_driver = GbSeleniumDriver(
                 parse_config()["webdriver_path"], args.use_gui, args.screenshot
