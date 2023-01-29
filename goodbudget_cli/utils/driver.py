@@ -21,13 +21,13 @@ class GbSeleniumDriver:
 
     Methods:
         log_in(in_username, in_password): log into goodbudget
-        enter_transaction(
+        enter_expense(
             in_date,
             in_payee,
             in_amount,
             in_envelope,
             in_notes
-        ): enter a transaction into goodbudget
+        ): enter an expense into goodbudget
         exit_driver(): quits the webdriver
     """
 
@@ -58,11 +58,9 @@ class GbSeleniumDriver:
         # TODO: allow user to retry entering password
         print("Logged in.\n")
 
-    def enter_transaction(
-        self, in_date, in_payee, in_amount, in_envelope, in_notes=None
-    ):
-        """Enters a transaction into goodbudget."""
-        print("Entering transaction. Please wait...\n")
+    def enter_expense(self, in_date, in_payee, in_amount, in_envelope, in_notes=None):
+        """Enters an expense into goodbudget."""
+        print("Entering expense. Please wait...\n")
         self._click_add_transation()
         self._enter_date(in_date)
         self._enter_payee(in_payee)

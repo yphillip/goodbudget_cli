@@ -18,6 +18,7 @@ def main():
     # Parser for login email
     parser = argparse.ArgumentParser()
     parser.add_argument("username", help="Username for Goodbudget", action="store")
+    parser.add_argument("-i", "--income", help="enter income mode", action="store_true")
     parser.add_argument("-g", "--use-gui", help="show the browser", action="store_true")
     parser.add_argument(
         "-s",
@@ -43,33 +44,50 @@ def main():
         input_date = format_date(
             input("Date of transaction (today / yesterday / mm/dd/yyyy): ")
         )
-        input_payee = input("Payee: ")
+        if not args.income:
+            input_payee = input("Payee: ")
+        else:
+            input_payer = input("Payer: ")
         input_amount = input("Amount: ")
-        input_envelope = None
-        while not input_envelope:
-            input_envelope = get_envelope_from_alias(
-                input("Envelope (or type in 'remind'): ")
-            )
+        if not args.income:
+            input_envelope = None
+            while not input_envelope:
+                input_envelope = get_envelope_from_alias(
+                    input("Envelope (or type in 'remind'): ")
+                )
         input_notes = input("Notes (optional): ")
 
-        summary_of_transaction = f"""
-        Summary of your transcation:
+        if not args.income:
+            summary_of_transaction = f"""
+            Summary of your expense:
 
-            Date: {input_date}
-            Payee: {input_payee}
-            Amount: ${input_amount}
-            Envelope: {input_envelope} (based on your alias of '{input_envelope}')
-            Notes: {input_notes if input_notes else "<none>"}
-        """
+                Date: {input_date}
+                Payee: {input_payee}
+                Amount: ${input_amount}
+                Envelope: {input_envelope} (based on your alias of '{input_envelope}')
+                Notes: {input_notes if input_notes else "<none>"}
+            """
+        else:
+            summary_of_transaction = f"""
+            Summary of your income:
+
+                Date: {input_date}
+                Payer: {input_payer}
+                Amount: ${input_amount}
+                Notes: {input_notes if input_notes else "<none>"}
+            """
         print(summary_of_transaction)
         input_confirmation = input("Is everything correct? (Y/n) ")
         if input_confirmation.lower() not in ["y", "yes"]:
             print("Whoops. Please try entering your transaction again.\n")
             continue
 
-        gb_driver.enter_transaction(
-            input_date, input_payee, input_amount, input_envelope, input_notes
-        )
+        if not args.income:
+            gb_driver.enter_expense(
+                input_date, input_payee, input_amount, input_envelope, input_notes
+            )
+        else:
+            gb_driver.enter_income(input_date, input_payer, input_amount, input_notes)
 
         input_more_transactions = input(
             "Do you want to enter another transaction? (Y/n) "
