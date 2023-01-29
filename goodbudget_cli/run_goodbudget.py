@@ -59,23 +59,23 @@ def main():
 
         if not args.income:
             summary_of_transaction = f"""
-            Summary of your expense:
+        Summary of your expense:
 
-                Date: {input_date}
-                Payee: {input_payee}
-                Amount: ${input_amount}
-                Envelope: {input_envelope} (based on your alias of '{input_envelope}')
-                Notes: {input_notes if input_notes else "<none>"}
-            """
+            Date: {input_date}
+            Payee: {input_payee}
+            Amount: ${input_amount}
+            Envelope: {input_envelope} (based on your alias of '{input_envelope}')
+            Notes: {input_notes if input_notes else "<none>"}
+        """
         else:
             summary_of_transaction = f"""
-            Summary of your income:
+        Summary of your income:
 
-                Date: {input_date}
-                Payer: {input_payer}
-                Amount: ${input_amount}
-                Notes: {input_notes if input_notes else "<none>"}
-            """
+            Date: {input_date}
+            Payer: {input_payer}
+            Amount: ${input_amount}
+            Notes: {input_notes if input_notes else "<none>"}
+        """
         print(summary_of_transaction)
         input_confirmation = input("Is everything correct? (Y/n) ")
         if input_confirmation.lower() not in ["y", "yes"]:
