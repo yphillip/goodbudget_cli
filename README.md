@@ -42,7 +42,7 @@ Notes (optional):
             Date: 01/28/2023
             Payee: QFC
             Amount: $40
-            Envelope: Groceries (based on your alias of 'Groceries')
+            Envelope: Groceries (based on your alias of 'groceries')
             Notes: <none>
 
 Is everything correct? (Y/n) Y

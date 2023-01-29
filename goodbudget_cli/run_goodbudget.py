@@ -52,9 +52,8 @@ def main():
         if not args.income:
             input_envelope = None
             while not input_envelope:
-                input_envelope = get_envelope_from_alias(
-                    input("Envelope (or type in 'remind'): ")
-                )
+                input_alias = input("Envelope (or type in 'remind'): ")
+                input_envelope = get_envelope_from_alias(input_alias)
         input_notes = input("Notes (optional): ")
 
         if not args.income:
@@ -64,7 +63,7 @@ def main():
             Date: {input_date}
             Payee: {input_payee}
             Amount: ${input_amount}
-            Envelope: {input_envelope} (based on your alias of '{input_envelope}')
+            Envelope: {input_envelope} (based on your alias of '{input_alias}')
             Notes: {input_notes if input_notes else "<none>"}
         """
         else:
