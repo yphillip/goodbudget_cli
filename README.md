@@ -37,13 +37,13 @@ Amount: 40
 Envelope (or type in 'remind'): groceries
 Notes (optional):
 
-            Summary of your expense:
+        Summary of your expense:
 
-                Date: 01/28/2023
-                Payee: QFC
-                Amount: $40
-                Envelope: Groceries (based on your alias of 'Groceries')
-                Notes: <none>
+            Date: 01/28/2023
+            Payee: QFC
+            Amount: $40
+            Envelope: Groceries (based on your alias of 'Groceries')
+            Notes: <none>
 
 Is everything correct? (Y/n) Y
 Entering expense. Please wait...
