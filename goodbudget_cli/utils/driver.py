@@ -171,6 +171,11 @@ class GbSeleniumDriver:
         expense_notes = self.driver.find_element(By.ID, "expense-notes")
         self.driver.execute_script("arguments[0].click();", expense_notes)
         expense_notes.send_keys(in_notes)
+        # send_keys of in_notes works, but for some reason, notes don't get saved after
+        # clicking save. Hitting TAB once seems to be a workaround to get around this.
+        actions = ActionChains(self.driver)
+        actions.send_keys(Keys.TAB)
+        actions.perform()
 
     def _click_save_transaction(self):
         "Clicks the Save button"
